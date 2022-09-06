@@ -1,0 +1,15 @@
+version: '3.5'
+services:
+  firefox: 
+    image: firefox-78-me
+    build: 
+      context: .
+      args: 
+        user: ${USER}
+        uid: ${UID}
+        gid: ${GID}
+    environment:
+      - DISPLAY=${DISPLAY}
+    network_mode: "host" 
+    #entrypoint: sleep infinity
+    entrypoint: firefox/firefox   
