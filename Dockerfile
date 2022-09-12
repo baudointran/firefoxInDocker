@@ -17,10 +17,10 @@ WORKDIR /home/${user}
 
 USER root
 
-RUN buildPkgs="curl ca-certificates libx11-xcb1 libgtk-3-0 libdbus-glib-1-2 libxt6" ; \
+RUN buildPkgs="curl ca-certificates libx11-xcb1 libgtk-3-0 libdbus-glib-1-2 libxt6 libasound2 libxtst6" ; \
     apt-get update && apt-get install -y --no-install-recommends $buildPkgs
 
-RUN curl https://ftp.mozilla.org/pub/firefox/releases/78.15.0esr/linux-x86_64/fr/firefox-78.15.0esr.tar.bz2 --output firefox.78.15.0esr.tar.bz2 && tar xjf firefox.78.15.0esr.tar.bz2
+RUN curl  https://ftp.mozilla.org/pub/firefox/releases/99.0b8/linux-x86_64/en-US/firefox-99.0b8.tar.bz2 --output firefox-99.0b8.tar.bz2 && tar xjf firefox-99.0b8.tar.bz2
 
 USER ${user}
 CMD firefox/firefox
