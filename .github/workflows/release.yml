@@ -3,6 +3,9 @@ on:
   workflow_dispatch:
     branches: 
       - main
+  push:
+    branch:
+      - main
 
 jobs:
   build-release: 
@@ -13,7 +16,6 @@ jobs:
       - name: get tag
         id: tagForRelease
         run: |
-          tag=$(grep -o 'releases/[^ ,\/]\+/' Dockerfile | awk -F '/' '{ print $2 }')
           echo ::set-output name=tag::${tag}
       - name: create release
         uses:  google-github-actions/release-please-action@v3
@@ -22,5 +24,4 @@ jobs:
           release-type: simple
           release-as: ${{ steps.tagForRelease.outputs.tag }}
           # tag: ${{ steps.tagForRelease.outputs.tag }}
-
 
