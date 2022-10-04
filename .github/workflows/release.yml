@@ -26,6 +26,11 @@ jobs:
           release-type: simple
           release-as: ${{ steps.tagForRelease.outputs.tag }}
           # tag: ${{ steps.tagForRelease.outputs.tag }}
+      - name: prepare deploy
+        if: ${{ steps.release.outputs.release_created }}
+        run:  |
+          mkdir target
+          cp *.* target/.
       - name: Deploy
         uses: s0/git-publish-subdir-action@develop
         if: ${{ steps.release.outputs.release_created }}
