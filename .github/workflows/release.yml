@@ -7,7 +7,6 @@ on:
   push:
     branches:
       - main
-
 jobs:
   build-release: 
     runs-on: ubuntu-latest
@@ -21,11 +20,17 @@ jobs:
           echo ::set-output name=tag::${tag}
       - name: create release
         uses:  google-github-actions/release-please-action@v3
+        id: release
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           release-type: simple
           release-as: ${{ steps.tagForRelease.outputs.tag }}
           # tag: ${{ steps.tagForRelease.outputs.tag }}
+      - name: prepare deploy
+        if: ${{ steps.release.outputs.release_created }}
+        run:  |
+          mkdir target
+          cp *.* target/.
       - name: Deploy
         uses: s0/git-publish-subdir-action@develop
         if: ${{ steps.release.outputs.release_created }}
