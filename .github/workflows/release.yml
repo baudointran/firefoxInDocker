@@ -1,6 +1,8 @@
 name: create release
 on: 
-  workflow_dispatch
+  workflow_dispatch:
+    branches: 
+      - main
 
 jobs:
   build-release: 
@@ -14,10 +16,11 @@ jobs:
           tag=$(grep -o 'releases/[^ ,\/]\+/' Dockerfile | awk -F '/' '{ print $2 }')
           echo ::set-output name=tag::${tag}
       - name: create release
-        uses: ncipollo/release-action@v1
+        uses:  google-github-actions/release-please-action@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          draft: true
-          tag: ${{ steps.tagForRelease.outputs.tag }}
+          release-type: simple
+          release-as: ${{ steps.tagForRelease.outputs.tag }}
+          # tag: ${{ steps.tagForRelease.outputs.tag }}
 
 
