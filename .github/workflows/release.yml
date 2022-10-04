@@ -3,6 +3,7 @@ on:
   workflow_dispatch:
     branches: 
       - main
+      - dev
 
 jobs:
   build-release: 
@@ -22,5 +23,15 @@ jobs:
           release-type: simple
           release-as: ${{ steps.tagForRelease.outputs.tag }}
           # tag: ${{ steps.tagForRelease.outputs.tag }}
+      - name: Deploy
+        uses: s0/git-publish-subdir-action@develop
+        if: ${{ steps.release.outputs.release_created }}
+        env:
+          REPO: self
+          BRANCH: dev-release/test-1
+          FOLDER: target
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
 
 
