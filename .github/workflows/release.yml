@@ -3,11 +3,21 @@ on:
   workflow_dispatch
 
 jobs:
-  release: 
-    - name: create release
-    uses: ncipollo/release-action@v1
-    with:
-      token: ${{ secrets.GITHUB_TOKEN }}
-      draft: true
+  build-release: 
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: get tag
+        id: tagForRelease
+        run: |
+          tag=$(grep -o 'releases/[^ ,\/]\+/' Dockerfile | awk -F '/' '{ print $2 }')
+          echo ::set-output name=tag::${tag}
+      - name: create release
+        uses: ncipollo/release-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          draft: true
+          tag: ${{ steps.tagForRelease.outputs.tag }}
 
 
