@@ -1,0 +1,13 @@
+name: create release
+on: 
+  workflow_dispatch
+
+jobs:
+  release: 
+    - name: create release
+    uses: ncipollo/release-action@v1
+    with:
+      token: ${{ secrets.GITHUB_TOKEN }}
+      draft: true
+
+
