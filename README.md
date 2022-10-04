@@ -1,4 +1,4 @@
-# Studio3TInDocker
+# Firefox in Docker
 
 ## Environnement
 
